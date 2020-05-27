@@ -2,13 +2,15 @@
 
 namespace App;
 
+use App\Task;
+use App\Booking;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\PasswordResetNotification;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, Notifiable;
 
@@ -41,7 +43,12 @@ class User extends Authenticatable
 
     public function bookings()
     {
-        return $this->hasMany(App\Booking::class);
+        return $this->hasMany(Booking::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
     }
 
     public function sendPasswordResetNotification($token)
